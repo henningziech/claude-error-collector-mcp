@@ -55,7 +55,8 @@ cd claude-error-collector
 The install script handles everything:
 1. Installs dependencies and builds the project
 2. Registers the MCP server with Claude Code (`claude mcp add`)
-3. Adds the trigger instruction to your `~/.claude/CLAUDE.md`
+
+No manual `CLAUDE.md` editing needed — the server provides its own instructions to Claude via MCP server metadata.
 
 Restart Claude Code after installation to activate.
 
@@ -66,16 +67,6 @@ If you prefer to set things up manually:
 ```bash
 npm install && npm run build
 claude mcp add error-collector -- node /path/to/claude-error-collector/dist/index.js
-```
-
-Then add this to your `~/.claude/CLAUDE.md`:
-
-```markdown
-## Error Collector
-
-When the user corrects you (e.g. "that was wrong", "no, not like that", "that's incorrect"),
-ALWAYS call the `record_error` tool from the error-collector MCP server.
-Derive a short, actionable rule from the correction.
 ```
 
 ## CLAUDE.md Resolution

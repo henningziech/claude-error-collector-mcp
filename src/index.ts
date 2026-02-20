@@ -137,10 +137,17 @@ async function writeRule(filePath: string, rule: string): Promise<void> {
 
 // --- MCP Server Setup ---
 
-const server = new McpServer({
-  name: "error-collector",
-  version: "1.0.0",
-});
+const server = new McpServer(
+  {
+    name: "error-collector",
+    version: "1.0.0",
+  },
+  {
+    instructions:
+      "When the user corrects you (e.g. \"that was wrong\", \"no, not like that\", \"that's incorrect\"), " +
+      "ALWAYS call the `record_error` tool. Derive a short, actionable rule from the correction.",
+  }
+);
 
 server.tool(
   "record_error",
@@ -151,7 +158,7 @@ server.tool(
     rule: z
       .string()
       .describe(
-        'Derived guideline, e.g. "IMMER X statt Y verwenden"'
+        'Derived guideline, e.g. "ALWAYS use X instead of Y"'
       ),
     project_dir: z
       .string()

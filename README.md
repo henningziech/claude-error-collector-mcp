@@ -1,6 +1,6 @@
 # Claude Error Collector
 
-An MCP server for [Claude Code](https://docs.anthropic.com/en/docs/claude-code) that learns from your corrections. When you tell Claude "that was wrong" or "no, do it like this", it records the lesson as a rule in your `CLAUDE.md` — so the same mistake doesn't happen twice.
+An MCP server for [Claude Code](https://docs.anthropic.com/en/docs/claude-code) that learns from your corrections. When you tell Claude "that was wrong" or "no, do it like this", it records the lesson as a rule in your `CLAUDE.md` - so the same mistake doesn't happen twice.
 
 ## How It Works
 

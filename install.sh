@@ -38,9 +38,9 @@ else
 
 ## Error Collector
 
-Wenn der User dich korrigiert (z.B. "das war falsch", "nein, so nicht", "das stimmt nicht"),
-rufe IMMER das Tool `record_error` vom error-collector MCP Server auf.
-Leite aus der Korrektur eine kurze, umsetzbare Regel ab.
+When the user corrects you (e.g. "that was wrong", "no, not like that", "that's incorrect"),
+ALWAYS call the `record_error` tool from the error-collector MCP server.
+Derive a short, actionable rule from the correction.
 EOF
   echo "    Done."
 fi

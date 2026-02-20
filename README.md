@@ -47,35 +47,28 @@ Rules are stored in a `## Learned Rules` section in your `CLAUDE.md`:
 ## Installation
 
 ```bash
-git clone https://github.com/hziech/claude-error-collector.git
+git clone https://github.com/henningziech/claude-error-collector.git
 cd claude-error-collector
-npm install
-npm run build
+./install.sh
 ```
 
-### Register with Claude Code
+The install script handles everything:
+1. Installs dependencies and builds the project
+2. Registers the MCP server with Claude Code (`claude mcp add`)
+3. Adds the trigger instruction to your `~/.claude/CLAUDE.md`
+
+Restart Claude Code after installation to activate.
+
+### Manual Installation
+
+If you prefer to set things up manually:
 
 ```bash
+npm install && npm run build
 claude mcp add error-collector -- node /path/to/claude-error-collector/dist/index.js
 ```
 
-Or add manually to `~/.claude.json`:
-
-```json
-{
-  "mcpServers": {
-    "error-collector": {
-      "type": "stdio",
-      "command": "node",
-      "args": ["/path/to/claude-error-collector/dist/index.js"]
-    }
-  }
-}
-```
-
-### Add trigger instruction to CLAUDE.md
-
-Add this to your `~/.claude/CLAUDE.md` so Claude knows when to use the tool:
+Then add this to your `~/.claude/CLAUDE.md`:
 
 ```markdown
 ## Error Collector

@@ -145,7 +145,11 @@ const server = new McpServer(
   {
     instructions:
       "When the user corrects you (e.g. \"that was wrong\", \"no, not like that\", \"that's incorrect\"), " +
-      "ALWAYS call the `record_error` tool. Derive a short, actionable rule from the correction.",
+      "derive a short, actionable rule from the correction. " +
+      "Before calling `record_error`, review existing learned rules in CLAUDE.md and check if a semantically equivalent rule already exists. " +
+      "If clearly new: call `record_error`. " +
+      "If clearly a duplicate: skip silently. " +
+      "If similar but not identical: ask the user whether to (a) add the new rule alongside the existing one, (b) replace/consolidate the rules, or (c) skip.",
   }
 );
 

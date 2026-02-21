@@ -47,8 +47,8 @@ Rules are stored in a `## Learned Rules` section in your `CLAUDE.md`:
 ## Installation
 
 ```bash
-git clone https://github.com/henningziech/claude-error-collector.git
-cd claude-error-collector
+git clone https://github.com/henningziech/claude-error-collector-mcp.git
+cd claude-error-collector-mcp
 ./install.sh
 ```
 
@@ -79,7 +79,14 @@ The server finds the right `CLAUDE.md` using this logic:
 
 ## Duplicate Detection
 
-Before writing a rule, the server checks existing rules using case-insensitive substring matching. If the new rule is already covered by an existing one (or vice versa), it skips the write.
+Duplicate detection works on two levels:
+
+1. **Server-side**: Before writing a rule, the server checks existing rules using case-insensitive substring matching. If the new rule is already covered by an existing one (or vice versa), it skips the write.
+
+2. **Semantic (via instructions)**: The server instructs Claude to review existing learned rules for semantic equivalence *before* calling `record_error` — even if the wording differs. Claude will:
+   - **Skip silently** if the rule clearly already exists
+   - **Record it** if the rule is clearly new
+   - **Ask the user** if a similar rule exists but it's not 100% clear whether it's a duplicate, offering options to add alongside, consolidate, or skip
 
 ## License
 

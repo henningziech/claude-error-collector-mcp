@@ -1,6 +1,6 @@
 {
   "name": "claude-error-collector",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "MCP Server that records Claude's errors and writes learned rules to CLAUDE.md",
   "type": "module",
   "main": "dist/index.js",

@@ -15,34 +15,84 @@ The server automatically detects whether you're in a project directory (writes t
 
 ### `record_error`
 
-Records a correction and saves it as a learned rule.
+Records a correction and saves it as a learned rule with metadata (date, category).
 
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
 | `error_description` | string | yes | What was wrong |
 | `correction` | string | yes | What is correct |
 | `rule` | string | yes | Derived guideline, e.g. "ALWAYS use X instead of Y" |
+| `category` | string | no | Rule category (e.g. "n8n", "bash", "google-workspace"). Auto-detected if omitted. |
 | `project_dir` | string | no | Current working directory (for finding project CLAUDE.md) |
 
 ### `list_errors`
 
-Lists all learned rules from the relevant `CLAUDE.md`.
+Lists all learned rules from the relevant `CLAUDE.md`. Supports filtering and grouping.
 
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
+| `category` | string | no | Filter rules by category |
+| `grouped` | boolean | no | Group rules by category with headings |
+| `project_dir` | string | no | Current working directory |
+
+### `delete_rule`
+
+Deletes a learned rule by index or substring match.
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `index` | number | no* | 1-based index of the rule to delete |
+| `match` | string | no* | Substring to match (must match exactly one rule) |
+| `project_dir` | string | no | Current working directory |
+
+*Exactly one of `index` or `match` must be provided.
+
+### `update_rule`
+
+Updates an existing rule's text, date, and optionally category.
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `index` | number | no* | 1-based index of the rule to update |
+| `match` | string | no* | Substring to match (must match exactly one rule) |
+| `new_rule` | string | yes | The new rule text |
+| `category` | string | no | New category (keeps existing if omitted) |
+| `project_dir` | string | no | Current working directory |
+
+*Exactly one of `index` or `match` must be provided.
+
+### `review_rules`
+
+Reviews all rules with their age for lifecycle management.
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `older_than_days` | number | no | Threshold in days to consider "old" (default: 30) |
 | `project_dir` | string | no | Current working directory |
 
 ## Output Format
 
-Rules are stored in a `## Learned Rules` section in your `CLAUDE.md`:
+Rules are stored in a `## Learned Rules` section in your `CLAUDE.md` with metadata as HTML comments:
 
 ```markdown
 ## Learned Rules
 
-- ALWAYS use async/await for API calls, NOT .then() chains
-- Google Apps Script uses Logger.log(), NOT console.log()
-- Confluence API expects ADF format, NOT Wiki markup
+- Legacy rule without metadata (still supported)
+
+### N8n
+
+- Bei n8n IMMER nodeId verwenden <!-- @date:2026-02-15 @category:n8n -->
+
+### Bash
+
+- NEVER embed large JSON inline in Bash commands <!-- @date:2026-02-20 @category:bash -->
 ```
+
+Metadata fields:
+- `@date:YYYY-MM-DD` — when the rule was created/updated
+- `@category:name` — rule category for grouping
+
+Rules without metadata (legacy format) remain fully supported and appear at the top of the section without a category heading.
 
 ## Installation
 

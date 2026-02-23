@@ -17,7 +17,6 @@ interface RuleMetadata {
 interface ParsedRule {
   text: string; // rule text without metadata comment
   metadata: RuleMetadata;
-  raw: string; // original full line content (after "- ")
 }
 
 interface ParsedSection {
@@ -156,7 +155,7 @@ function parseLearnedRulesSection(content: string): ParsedSection {
     if (trimmed.startsWith("- ")) {
       const rawContent = trimmed.substring(2);
       const { text, metadata } = parseMetadata(rawContent);
-      const rule: ParsedRule = { text, metadata, raw: rawContent };
+      const rule: ParsedRule = { text, metadata };
 
       // If we're under a category heading, use that as category
       if (currentCategory) {
@@ -434,7 +433,6 @@ server.tool(
     const newRule: ParsedRule = {
       text: rule,
       metadata: { date: todayISO(), category: resolvedCategory },
-      raw: rule + formatMetadata({ date: todayISO(), category: resolvedCategory }),
     };
 
     allRules.push(newRule);
@@ -663,8 +661,6 @@ server.tool(
     if (category) {
       allRules[result.idx].metadata.category = category;
     }
-    allRules[result.idx].raw =
-      new_rule + formatMetadata(allRules[result.idx].metadata);
 
     await writeLearnedRulesSection(filePath, allRules);
 

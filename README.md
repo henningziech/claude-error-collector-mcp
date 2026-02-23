@@ -99,25 +99,11 @@ Rules without metadata (legacy format) remain fully supported and appear at the 
 ```bash
 git clone https://github.com/henningziech/claude-error-collector-mcp.git
 cd claude-error-collector-mcp
-./install.sh
-```
-
-The install script handles everything:
-1. Installs dependencies and builds the project
-2. Registers the MCP server with Claude Code (`claude mcp add`)
-
-No manual `CLAUDE.md` editing needed — the server provides its own instructions to Claude via MCP server metadata.
-
-Restart Claude Code after installation to activate.
-
-### Manual Installation
-
-If you prefer to set things up manually:
-
-```bash
 npm install && npm run build
-claude mcp add error-collector -- node /path/to/claude-error-collector/dist/index.js
+claude mcp add error-collector -s user -- node "$PWD/dist/index.js"
 ```
+
+Restart Claude Code after installation. No manual `CLAUDE.md` editing needed — the server provides its own instructions to Claude via MCP server metadata.
 
 ## CLAUDE.md Resolution
 
